@@ -1,0 +1,104 @@
+{
+  "name": "paper-to-action",
+  "displayName": "Paper-to-Action",
+  "description": "自动化论文爬取与智能摘要工具 - VSCode 插件",
+  "version": "0.1.0",
+  "publisher": "East-Hu",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "icon": "resources/icon.png",
+  "activationEvents": [
+    "onView:paperRobotView"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "paper-robot",
+          "title": "Paper Robot",
+          "icon": "resources/robot.svg"
+        }
+      ]
+    },
+    "views": {
+      "paper-robot": [
+        {
+          "id": "paperRobotView",
+          "name": "论文搜索",
+          "type": "webview"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "paperRobot.search",
+        "title": "Paper Robot: 搜索论文"
+      },
+      {
+        "command": "paperRobot.config",
+        "title": "Paper Robot: 配置 API"
+      },
+      {
+        "command": "paperRobot.openPanel",
+        "title": "Paper Robot: 打开面板"
+      }
+    ],
+    "configuration": {
+      "title": "Paper Robot",
+      "properties": {
+        "paperRobot.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "LLM API 密钥",
+          "scope": "application"
+        },
+        "paperRobot.baseUrl": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "API 基础 URL",
+          "scope": "application"
+        },
+        "paperRobot.model": {
+          "type": "string",
+          "default": "gpt-4o-mini",
+          "description": "使用的模型名称",
+          "scope": "application"
+        },
+        "paperRobot.maxResults": {
+          "type": "number",
+          "default": 20,
+          "description": "最大搜索结果数",
+          "scope": "application"
+        },
+        "paperRobot.outputDir": {
+          "type": "string",
+          "default": "papers",
+          "description": "论文保存目录",
+          "scope": "application"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./ && cd webview-ui && npm run build",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.40.0",
+    "typescript": "^5.1.0"
+  },
+  "dependencies": {}
+}
