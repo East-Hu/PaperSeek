@@ -1,0 +1,75 @@
+name: Daily Papers Workflow
+
+on:
+  schedule:
+    # 每天 UTC 时间 9:00 运行 (北京时间 17:00)
+    - cron: '0 9 * * *'
+  # 允许手动触发
+  workflow_dispatch:
+    inputs:
+      keywords:
+        description: '搜索关键词'
+        required: true
+        default: 'AI Security'
+      max_results:
+        description: '最大结果数'
+        required: false
+        default: '20'
+
+jobs:
+  fetch-papers:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+      
+      - name: Configure API
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+        run: |
+          mkdir -p ~/.paper_robot
+          cat > ~/.paper_robot/config.yaml << EOF
+          robot_name: "GitHub Actions Paper Robot"
+          api_key: "$API_KEY"
+          base_url: "$BASE_URL"
+          model: "gpt-4o-mini"
+          max_results: ${{ github.event.inputs.max_results || '20' }}
+          language: "zh"
+          output_dir: "papers"
+          EOF
+      
+      - name: Search papers
+        run: |
+          KEYWORDS="${{ github.event.inputs.keywords || 'AI Security' }}"
+          MAX_RESULTS="${{ github.event.inputs.max_results || '20' }}"
+          
+          paper-robot search "$KEYWORDS" \
+            --max-results "$MAX_RESULTS" \
+            --format both
+      
+      - name: Commit and push results
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "Paper Robot"
+          
+          DATE=$(date +'%Y-%m-%d')
+          git add papers/
+          
+          if git diff --staged --quiet; then
+            echo "No new papers found"
+          else
+            git commit -m "📚 Daily paper update - $DATE"
+            git push
+          fi
