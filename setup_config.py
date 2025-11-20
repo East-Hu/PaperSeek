@@ -17,14 +17,14 @@ config.set_api_config(
 )
 
 # 设置机器人名称
-config.set_robot_name("East's PaperSeek")
+config.set_robot_name("Yourname PaperSeek Robot")
 
 # 设置其他默认配置
 config.set("max_results", 20)
 config.set("language", "zh")
 
 print("✓ API 配置完成！")
-print("✓ 机器人名称已设置为: East's PaperSeek")
+print("✓ 机器人名称已设置为: Yourname PaperSeek Robot")
 print("\n现在可以使用以下命令启动工具：")
 print("  paper-seek")
 print("  或简写：pr")
