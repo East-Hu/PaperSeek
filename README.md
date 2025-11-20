@@ -1,87 +1,82 @@
-# Paper-to-Action
+# 📚 PaperRobot
 
 <div align="center">
 
-![Paper-to-Action Banner](docs/images/banner.png)
+![PaperRobot Banner](docs/images/banner.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![GitHub Stars](https://img.shields.io/github/stars/East-Hu/paper-to-action?style=social)](https://github.com/East-Hu/paper-to-action)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/East-Hu/paper-to-action/pulls)
+[![GitHub Stars](https://img.shields.io/github/stars/East-Hu/PaperRobot?style=social)](https://github.com/East-Hu/PaperRobot)
 
-**全自动论文速递机器人 | 让学术研究更高效**
+**全自动论文速递机器人 | AI-Powered Academic Paper Delivery Bot**
 
-[English](README_EN.md) | 简体中文
+让学术研究更高效 | Making Research More Efficient
+
+[English](#english) | [中文](#中文)
 
 </div>
 
 ---
 
-## ✨ 特性亮点
+## 中文
 
-- 🔍 **智能搜索** - 自动从 ArXiv 爬取最新论文，支持关键词、时间范围筛选
-- 🤖 **AI 摘要** - 使用 LLM (GPT-4o-mini等) 生成中英文核心创新点总结
-- 🎨 **精美 CLI** - 炫酷的命令行界面，支持中英文切换，丰富的动画效果
-- 💻 **VSCode 插件** - 无缝集成到编辑器，边写代码边看论文
-- 🚀 **一键部署** - Fork 即用，简单配置即可开始使用
+### ✨ 特性
+
+- 🔍 **智能搜索** - 自动从 ArXiv 爬取最新论文，支持关键词、时间范围、分类筛选
+- 🤖 **AI 摘要** - 使用 LLM (GPT-4o-mini等) 生成中英文核心创新点总结  
+- 🎨 **精美 CLI** - 炫酷的命令行界面，支持中英文切换，丰富的动画和渐变色彩
+- 💾 **多种格式** - 支持 Markdown 和 JSON 格式保存
+- 🌍 **多语言** - 完整的中英文界面支持
 - ⚙️ **高度可配置** - 自定义机器人名称、关键词、时间范围、输出格式等
-- 🌍 **多语言支持** - 完整的中英文界面支持
+- 🚀 **简单部署** - 克隆即用，5分钟上手
 
-## 📸 界面预览
+### 📸 界面预览
 
-<div align="center">
-
-### 语言选择界面
+#### 语言选择
 ![Language Selection](docs/images/language-selection.png)
 
-### 主界面
+#### 主菜单
 ![Main Interface](docs/images/main-interface.png)
 
-### 论文搜索
-![Search Results](docs/images/search-results.png)
+### 🚀 快速开始
 
-</div>
-
-## 🚀 快速开始
-
-### 1. 安装
-
-#### 方法一：从源码安装（推荐）
+#### 1. 克隆仓库
 
 ```bash
-# 克隆仓库
-git clone https://github.com/East-Hu/paper-to-action.git
-cd paper-to-action
+git clone https://github.com/East-Hu/PaperRobot.git
+cd PaperRobot
+```
 
+#### 2. 创建虚拟环境并安装
+
+```bash
 # 创建虚拟环境
 python3 -m venv venv
-source venv/bin/activate  # Windows: venv\\Scripts\\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# 安装依赖
+# 安装
 pip install -e .
 ```
 
-#### 方法二：使用 pip 安装（即将支持）
+#### 3. 配置 API
+
+首次启动时会引导您配置 LLM API：
 
 ```bash
-pip install paper-to-action
+paper-robot
 ```
 
-### 2. 配置 API
+您需要准备：
+- **API Key**: LLM 服务提供商的 API 密钥
+- **Base URL**: API 地址 (默认: OpenAI)
+- **Model**: 模型名称 (推荐: gpt-4o-mini)
 
-首次启动时会引导您配置 LLM API。您需要准备：
-
-- **API Key**: 您的 LLM 服务提供商 API 密钥
-- **Base URL**: API 基础 URL（默认为 OpenAI）
-- **Model**: 使用的模型名称（推荐 gpt-4o-mini）
-
-#### 支持的 LLM 提供商
-
-- OpenAI (GPT-4, GPT-4o-mini 等)
+**支持的 LLM 提供商**:
+- OpenAI (GPT-4, GPT-4o-mini)
 - Azure OpenAI
-- 任何兼容 OpenAI API 的服务 (如 vveai.com, deepseek 等)
+- 任何兼容 OpenAI API 的服务
 
-### 3. 启动使用
+#### 4. 开始使用
 
 ```bash
 # 启动交互式界面
@@ -91,33 +86,18 @@ paper-robot
 pr
 ```
 
-#### 首次运行流程
+### 📖 使用方法
 
-1. **选择语言** - 中文 或 English
-2. **配置 API** - 输入您的 API 凭据
-3. **开始搜索** - 输入关键词，自动爬取论文
-4. **AI 总结** - 可选择生成 AI 摘要
-5. **保存结果** - 自动保存为 Markdown 或 JSON
+#### 交互式模式（推荐）
 
-## 📖 使用指南
-
-### 交互式模式（推荐）
-
-```bash
-paper-robot
-```
-
-启动后您将看到精美的欢迎界面，提供以下功能：
-
+启动后选择操作：
 1. 🔍 **搜索论文** - 输入关键词搜索最新论文
 2. ⚙️ **配置设置** - 管理 API、机器人名称、语言等
 3. 📂 **查看历史** - 浏览已保存的论文
-4. 🧪 **测试 API** - 验证 API 连接是否正常
+4. 🧪 **测试 API** - 验证 API 连接
 5. ❌ **退出程序**
 
-### 命令行模式
-
-适合脚本化和自动化场景：
+#### 命令行模式
 
 ```bash
 # 基础搜索
@@ -126,53 +106,37 @@ paper-robot search "AI Security"
 # 指定时间范围
 paper-robot search "RAG" --start-date 2025-01-01 --end-date 2025-01-19
 
-# 指定结果数量
-paper-robot search "Machine Learning" --max-results 50
+# 指定结果数量和格式
+paper-robot search "Machine Learning" --max-results 50 --format markdown
 
 # 不生成 AI 摘要
 paper-robot search "NLP" --no-summarize
 
-# 指定输出格式
-paper-robot search "Computer Vision" --format markdown
-
 # 查看配置
 paper-robot config show
 
-# 设置机器人名称
-paper-robot rename "Mark's Auto Paper Robot"
+# 自定义机器人名称
+paper-robot rename "我的论文助手"
 
 # 测试 API 连接
 paper-robot test
 ```
 
-### 自定义机器人名称
+### 💡 输出示例
 
-让您的论文机器人更有个性：
-
-```bash
-paper-robot rename "东哥的学术助手"
-```
-
-之后欢迎界面将显示您自定义的名称！
-
-## 💡 输出示例
-
-论文会保存为精美的 Markdown 文件：
+论文保存为精美的 Markdown 文件：
 
 ```markdown
 # 论文速递 - 2025-01-19
 
 **共找到 10 篇论文**
 
----
-
 ## 1. Advanced Techniques in AI Security
 
 **作者：** John Doe, Jane Smith et al.
 **发布日期：** 2025-01-15
 **ArXiv ID：** 2501.12345
-**PDF 链接：** [https://arxiv.org/pdf/2501.12345](https://arxiv.org/pdf/2501.12345)
-**分类：** cs.AI, cs.CR
+**PDF 链接：** [下载](https://arxiv.org/pdf/2501.12345)
 
 ### 🤖 AI 核心创新点总结
 
@@ -180,163 +144,166 @@ paper-robot rename "东哥的学术助手"
 1. 基于对抗训练的鲁棒性增强方法
 2. 实时威胁检测与响应机制
 3. 在多个基准测试上达到 SOTA 性能
-
-### 📄 原始摘要
-
-We propose a novel framework for AI security...
 ```
 
-## 🎨 VSCode 插件
+### ⚙️ 配置文件
 
-### 安装插件
+配置保存在 `~/.paper_robot/config.yaml`:
 
-**方法一：从市场安装（即将上线）**
-1. 在 VSCode 中按 `Ctrl+Shift+X` 打开扩展市场
-2. 搜索 "Paper-to-Action"
-3. 点击安装
+```yaml
+robot_name: "Paper Robot"
+api_key: "your-api-key"
+base_url: "https://api.openai.com/v1"
+model: "gpt-4o-mini"
+max_results: 20
+language: "zh"          # zh 或 en
+output_dir: "papers"
+```
 
-**方法二：从源码安装**
+### 🔧 GitHub Actions 自动化
+
+可以配置每日自动推送论文（参见 `.github/workflows/daily-papers.yml`）。
+
+### 🤝 贡献
+
+欢迎贡献！请查看 [CONTRIBUTING.md](CONTRIBUTING.md)
+
+### 📄 许可证
+
+MIT License - 详见 [LICENSE](LICENSE)
+
+### 🙏 致谢
+
+- [ArXiv](https://arxiv.org/) - 学术论文预印本平台
+- [Rich](https://github.com/Textualize/rich) - 精美的终端输出库
+- [Typer](https://github.com/tiangolo/typer) - 现代 CLI 框架
+
+---
+
+## English
+
+### ✨ Features
+
+- 🔍 **Smart Search** - Auto-crawl latest papers from ArXiv with keyword, date range, and category filtering
+- 🤖 **AI Summarization** - Generate summaries in Chinese/English using LLM (GPT-4o-mini, etc.)
+- 🎨 **Beautiful CLI** - Stunning command-line interface with Chinese/English support and rich animations
+- 💾 **Multiple Formats** - Save as Markdown or JSON
+- 🌍 **Multi-language** - Complete Chinese and English interface support
+- ⚙️ **Highly Configurable** - Customize robot name, keywords, date range, output format, etc.
+- 🚀 **Easy Setup** - Clone and use, ready in 5 minutes
+
+### 🚀 Quick Start
+
+#### 1. Clone the Repository
 
 ```bash
-cd vscode-extension
-npm install
-npm run compile
-# 按 F5 启动调试
+git clone https://github.com/East-Hu/PaperRobot.git
+cd PaperRobot
 ```
 
-### 使用插件
+#### 2. Create Virtual Environment and Install
 
-1. 点击侧边栏的 📚 图标
-2. 首次使用会提示配置 API
-3. 输入搜索关键词、日期范围
-4. 点击"搜索论文"按钮
-5. 查看 AI 生成的摘要
+```bash
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-## 🔧 高级用法
+# Install
+pip install -e .
+```
 
-### GitHub Actions 自动化
+#### 3. Configure API
 
-实现每日自动推送最新论文到仓库！
+On first launch, you'll be guided to configure your LLM API:
 
-创建 `.github/workflows/daily-papers.yml`：
+```bash
+paper-robot
+```
+
+You'll need:
+- **API Key**: Your LLM provider's API key
+- **Base URL**: API endpoint (default: OpenAI)
+- **Model**: Model name (recommended: gpt-4o-mini)
+
+**Supported LLM Providers**:
+- OpenAI (GPT-4, GPT-4o-mini)
+- Azure OpenAI
+- Any OpenAI-compatible API service
+
+#### 4. Start Using
+
+```bash
+# Launch interactive interface
+paper-robot
+
+# Or use short alias
+pr
+```
+
+### 📖 Usage
+
+#### Interactive Mode (Recommended)
+
+After launching, select an option:
+1. 🔍 **Search Papers** - Enter keywords to search latest papers
+2. ⚙️ **Settings** - Manage API, robot name, language, etc.
+3. 📂 **View History** - Browse saved papers
+4. 🧪 **Test API** - Verify API connection
+5. ❌ **Exit**
+
+#### Command Line Mode
+
+```bash
+# Basic search
+paper-robot search "AI Security"
+
+# Specify date range
+paper-robot search "RAG" --start-date 2025-01-01 --end-date 2025-01-19
+
+# Specify max results and format
+paper-robot search "Machine Learning" --max-results 50 --format markdown
+
+# Skip AI summarization
+paper-robot search "NLP" --no-summarize
+
+# View configuration
+paper-robot config show
+
+# Customize robot name
+paper-robot rename "My Research Assistant"
+
+# Test API connection
+paper-robot test
+```
+
+### ⚙️ Configuration
+
+Configuration is saved in `~/.paper_robot/config.yaml`:
 
 ```yaml
-name: Daily Papers
-
-on:
-  schedule:
-    - cron: '0 9 * * *'  # 每天 9:00 UTC
-  workflow_dispatch:
-
-jobs:
-  fetch-papers:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-      
-      - name: Install dependencies
-        run: pip install paper-to-action
-      
-      - name: Configure API
-        run: |
-          paper-robot config set --key api_key --value ${{ secrets.API_KEY }}
-          paper-robot config set --key base_url --value ${{ secrets.BASE_URL }}
-      
-      - name: Search papers
-        run: paper-robot search "AI Security" --format markdown
-      
-      - name: Commit results
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add papers/
-          git commit -m "Daily paper update $(date +'%Y-%m-%d')" || exit 0
-          git push
+robot_name: "Paper Robot"
+api_key: "your-api-key"
+base_url: "https://api.openai.com/v1"
+model: "gpt-4o-mini"
+max_results: 20
+language: "en"          # zh or en
+output_dir: "papers"
 ```
 
-**配置步骤：**
-1. 在 GitHub 仓库设置中添加 Secrets
-   - `API_KEY`: 您的 LLM API 密钥
-   - `BASE_URL`: 您的 API Base URL
-2. 提交工作流文件到仓库
-3. 每天自动运行，论文推送到 `papers/` 目录
+### 🤝 Contributing
 
-### Python API
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md)
 
-直接在代码中使用：
+### 📄 License
 
-```python
-from paper_to_action import ArxivCrawler, LLMClient, PaperStorage
-
-# 初始化
-crawler = ArxivCrawler(max_results=20)
-llm_client = LLMClient(api_key="your-key", base_url="your-url")
-storage = PaperStorage(output_dir="papers")
-
-# 搜索论文
-papers = crawler.search_papers(
-    keywords="AI Security",
-    start_date="2025-01-01",
-    end_date="2025-01-19"
-)
-
-# 生成摘要
-papers = llm_client.batch_summarize(papers, language="zh")
-
-# 保存结果
-storage.save_papers_markdown(papers)
-```
-
-## ⚙️ 配置文件
-
-配置文件位置：`~/.paper_robot/config.yaml`
-
-```yaml
-robot_name: "Paper Robot"     # 机器人名称
-api_key: "your-api-key"       # API 密钥
-base_url: "https://api.openai.com/v1"  # API 地址
-model: "gpt-4o-mini"          # 使用的模型
-max_results: 20               # 默认最大结果数
-language: "zh"                # 界面语言 (zh/en)
-output_dir: "papers"          # 输出目录
-```
-
-## 🤝 贡献
-
-欢迎贡献！请查看 [贡献指南](CONTRIBUTING.md)
-
-1. Fork 本仓库
-2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 打开 Pull Request
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情
-
-## 🙏 致谢
-
-- [ArXiv](https://arxiv.org/) - 优质的学术论文预印本平台
-- [Rich](https://github.com/Textualize/rich) - 精美的终端输出库
-- [Typer](https://github.com/tiangolo/typer) - 现代化的 CLI 框架
-
-## 📧 联系方式
-
-- GitHub: [@East-Hu](https://github.com/East-Hu)
-- 项目链接: [https://github.com/East-Hu/paper-to-action](https://github.com/East-Hu/paper-to-action)
-
-## ⭐ Star History
-
-如果这个项目对您有帮助，请给个 Star！
+MIT License - see [LICENSE](LICENSE)
 
 ---
 
 <div align="center">
 
 **Made with ❤️ for researchers worldwide**
+
+**⭐ Star this repo if it helps your research!**
 
 </div>
