@@ -126,3 +126,30 @@ class Config:
         output_dir = Path(self.get("output_dir", "papers"))
         output_dir.mkdir(exist_ok=True)
         return output_dir
+    
+    def set_language(self, language: str):
+        """
+        设置界面语言
+        
+        Args:
+            language: 语言代码 ('zh' 或 'en')
+        """
+        if language in ["zh", "en"]:
+            self.set("language", language)
+            self.save_config()
+            
+            # Import i18n to show localized message
+            from .i18n import get_text
+            message = get_text("language_set", language)
+            console.print(f"[green]✓ {message}[/green]")
+        else:
+            console.print(f"[red]✗ 不支持的语言: {language}[/red]")
+    
+    def get_language(self) -> str:
+        """
+        获取当前语言设置
+        
+        Returns:
+            语言代码 ('zh' 或 'en')
+        """
+        return self.get("language", "zh")
