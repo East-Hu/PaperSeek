@@ -8,7 +8,7 @@ echo "=========================================="
 echo ""
 
 # 激活虚拟环境
-source /Users/east/AntiGravity_projects/PaperRobot/bin/activate
+source xxx
 
 echo "✓ 虚拟环境已激活"
 echo ""
