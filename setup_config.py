@@ -7,8 +7,8 @@ from paper_to_action.config import Config
 config = Config()
 
 # 设置 API 配置
-API_KEY = "***REMOVED***"
-BASE_URL = "https://api.openai.com/v1"
+API_KEY = "YOUR-API-KEY"
+BASE_URL = "YOUR-BASE-URL"
 
 config.set_api_config(
     api_key=API_KEY,
