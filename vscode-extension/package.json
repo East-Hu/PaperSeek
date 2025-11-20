@@ -1,18 +1,34 @@
 {
   "name": "paper-to-action",
   "displayName": "Paper-to-Action",
-  "description": "自动化论文爬取与智能摘要工具 - VSCode 插件",
+  "description": "Automated paper crawling and AI summarization tool for researchers | 自动化论文爬取与智能摘要工具",
   "version": "0.1.0",
-  "publisher": "East-Hu",
+  "publisher": "east-hu",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/East-Hu/paper-to-action.git"
+  },
+  "bugs": {
+    "url": "https://github.com/East-Hu/paper-to-action/issues"
+  },
+  "homepage": "https://github.com/East-Hu/paper-to-action#readme",
+  "license": "MIT",
+  "keywords": [
+    "arxiv",
+    "paper",
+    "research",
+    "AI",
+    "LLM",
+    "summary",
+    "academic",
+    "search",
+    "papers"
+  ],
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
-  ],
-  "icon": "resources/icon.png",
-  "activationEvents": [
-    "onView:paperRobotView"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -29,23 +45,22 @@
       "paper-robot": [
         {
           "id": "paperRobotView",
-          "name": "论文搜索",
-          "type": "webview"
+          "name": "Paper Search"
         }
       ]
     },
     "commands": [
       {
         "command": "paperRobot.search",
-        "title": "Paper Robot: 搜索论文"
+        "title": "Paper Robot: Search Papers"
       },
       {
         "command": "paperRobot.config",
-        "title": "Paper Robot: 配置 API"
+        "title": "Paper Robot: Configure API"
       },
       {
         "command": "paperRobot.openPanel",
-        "title": "Paper Robot: 打开面板"
+        "title": "Paper Robot: Open Panel"
       }
     ],
     "configuration": {
@@ -54,31 +69,31 @@
         "paperRobot.apiKey": {
           "type": "string",
           "default": "",
-          "description": "LLM API 密钥",
+          "description": "LLM API Key",
           "scope": "application"
         },
         "paperRobot.baseUrl": {
           "type": "string",
           "default": "https://api.openai.com/v1",
-          "description": "API 基础 URL",
+          "description": "API Base URL",
           "scope": "application"
         },
         "paperRobot.model": {
           "type": "string",
           "default": "gpt-4o-mini",
-          "description": "使用的模型名称",
+          "description": "Model name to use",
           "scope": "application"
         },
         "paperRobot.maxResults": {
           "type": "number",
           "default": 20,
-          "description": "最大搜索结果数",
+          "description": "Maximum search results",
           "scope": "application"
         },
         "paperRobot.outputDir": {
           "type": "string",
           "default": "papers",
-          "description": "论文保存目录",
+          "description": "Output directory for papers",
           "scope": "application"
         }
       }
@@ -86,11 +101,13 @@
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "tsc -p ./ && cd webview-ui && npm run build",
+    "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "pretest": "npm run compile",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "package": "vsce package",
+    "publish": "vsce publish"
   },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
