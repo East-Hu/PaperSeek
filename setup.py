@@ -22,7 +22,7 @@ setup(
     description="自动化论文爬取与智能摘要工具 (Max Version)",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/East-Hu/paper-to-action",
+    url="https://github.com/East-Hu/PaperSeek",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
