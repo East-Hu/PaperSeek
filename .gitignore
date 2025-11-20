@@ -1,68 +1,12 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Virtual Environment
 venv/
-ENV/
-env/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Config and secrets
+__pycache__/
+*.pyc
 .env
-config.yaml
-config.json
-.api_key
-*.key
-
-# Paper storage
-papers/
-*.pdf
-
-# OS
 .DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-
-# Internal/Development docs (not for public repo)
-HOW_TO_GET_STARS.md
-PUBLISHING_GUIDE.md
-QUICK_START.md
-GITHUB_SETUP.md
-PROJECT_OVERVIEW.md
-
-# VSCode Extension (separate repo)
-vscode-extension/
-PUSH_GUIDE.md
+papers/
+*.egg-info/
+dist/
+build/
+.idea/
+.vscode/
+.paper_robot/

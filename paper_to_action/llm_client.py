@@ -1,8 +1,8 @@
 """
-LLM 客户端模块 - 用于生成论文摘要
+LLM 客户端模块 - 用于生成论文摘要和标签
 """
 import openai
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 from rich.console import Console
 import time
 
@@ -88,7 +88,7 @@ Summary:"""
             console.print(f"[red]✗ 生成摘要失败：{str(e)}[/red]")
             return f"摘要生成失败：{str(e)}"
     
-    def batch_summarize(self, papers: list, language: str = "zh", delay: float = 1.0) -> list:
+    def batch_summarize(self, papers: list, language: str = "zh", delay: float = 1.0, progress_callback=None) -> list:
         """
         批量生成论文摘要
         
@@ -96,6 +96,7 @@ Summary:"""
             papers: 论文列表
             language: 摘要语言
             delay: 请求之间的延迟（秒），避免触发 API 限流
+            progress_callback: 进度回调函数，接收 (current) 参数
             
         Returns:
             包含摘要的论文列表
@@ -108,11 +109,105 @@ Summary:"""
             summary = self.summarize_paper(paper, language)
             paper["ai_summary"] = summary
             
+            # 调用progress回调
+            if progress_callback:
+                progress_callback(i)
+            
             # 延迟以避免 API 限流
             if i < len(papers):
                 time.sleep(delay)
         
         console.print(f"\n[green]✓ 所有摘要生成完成！[/green]")
+        return papers
+    
+    def generate_tags(self, paper: Dict, max_tags: int = 5) -> List[str]:
+        """
+        为论文生成标签/关键词
+        
+        Args:
+            paper: 论文信息字典
+            max_tags: 最大标签数量
+            
+        Returns:
+            标签列表
+        """
+        title = paper.get("title", "")
+        abstract = paper.get("summary", paper.get("abstract", ""))
+        
+        if not title and not abstract:
+            return []
+        
+        # 构建 prompt
+        prompt = f"""Based on the following academic paper, generate {max_tags} relevant tags/keywords that describe the main topics and methods.
+
+Paper Title: {title}
+
+Abstract: {abstract}
+
+Please provide exactly {max_tags} tags, separated by commas. Tags should be:
+- Specific and relevant
+- Mix of broad topics and specific methods
+- Useful for categorization
+
+Tags:"""
+        
+        try:
+            response = self.client.chat.completions.create(
+                model=self.model,
+                messages=[
+                    {"role": "system", "content": "You are an expert at academic paper categorization."},
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.5,
+                max_tokens=100
+            )
+            
+            tags_text = response.choices[0].message.content.strip()
+            # 解析标签
+            tags = [tag.strip() for tag in tags_text.split(',')]
+            tags = [tag for tag in tags if tag][:max_tags]
+            
+            return tags
+            
+        except Exception as e:
+            console.print(f"[yellow]⚠ 标签生成失败: {str(e)}[/yellow]")
+            return []
+    
+    def batch_generate_tags(
+        self,
+        papers: list,
+        max_tags: int = 5,
+        progress_callback=None
+    ) -> list:
+        """
+        批量生成论文标签
+        
+        Args:
+            papers: 论文列表
+            max_tags: 每篇论文的最大标签数
+            progress_callback: 进度回调
+            
+        Returns:
+            包含标签的论文列表
+        """
+        console.print(f"[cyan]🏷️  开始生成论文标签...[/cyan]")
+        
+        for i, paper in enumerate(papers, 1):
+            tags = self.generate_tags(paper, max_tags)
+            paper['tags'] = tags
+            
+            if tags:
+                console.print(f"[green]✓ {paper.get('title', '')[:40]}... | 标签: {', '.join(tags[:3])}{'...' if len(tags) > 3 else ''}[/green]")
+            
+            # 回调进度
+            if progress_callback:
+                progress_callback(i)
+            
+            # 延迟避免API限流
+            if i < len(papers):
+                time.sleep(0.5)
+        
+        console.print(f"[green]✓ 标签生成完成！[/green]")
         return papers
     
     def test_connection(self) -> bool:

@@ -8,7 +8,7 @@ from typing import Dict, Any
 TEXTS = {
     "zh": {
         # Banner and welcome
-        "app_name": "Paper Robot",
+        "app_name": "PaperSeek",
         "app_subtitle": "自动化论文爬取与智能摘要工具",
         "welcome": "欢迎使用 Paper-to-Action",
         "goodbye": "再见！",
@@ -94,7 +94,7 @@ TEXTS = {
     
     "en": {
         # Banner and welcome
-        "app_name": "Paper Robot",
+        "app_name": "PaperSeek",
         "app_subtitle": "Automated Paper Crawling & AI Summarization Tool",
         "welcome": "Welcome to Paper-to-Action",
         "goodbye": "Goodbye!",
@@ -197,18 +197,22 @@ class I18n:
         if language in TEXTS:
             self.language = language
     
-    def get(self, key: str, **kwargs) -> str:
+    def get(self, key: str, default: str = None, **kwargs) -> str:
         """
         Get localized text
         
         Args:
             key: Text key
+            default: Default text if key not found
             **kwargs: Format parameters
             
         Returns:
             Localized text string
         """
-        text = TEXTS.get(self.language, {}).get(key, key)
+        text = TEXTS.get(self.language, {}).get(key)
+        
+        if text is None:
+            return default if default is not None else key
         
         # Format with parameters if provided
         if kwargs:

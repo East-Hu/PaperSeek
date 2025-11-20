@@ -126,10 +126,10 @@ source venv/bin/activate
 pip install -e .
 
 # Test the CLI
-paper-robot
+paper-seek
 
 # Test specific features you modified
-paper-robot search "test" --max-results 5
+paper-seek search "test" --max-results 5
 ```
 
 For VSCode extension:

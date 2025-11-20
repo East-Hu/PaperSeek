@@ -14,7 +14,7 @@ from rich.live import Live
 import sys
 import time
 from ..config import Config
-from ..arxiv_crawler import ArxivCrawler
+from ..crawler import ArxivCrawler
 from ..llm_client import LLMClient
 from ..storage import PaperStorage
 from ..i18n import get_i18n, set_language
@@ -22,8 +22,8 @@ from ..i18n import get_i18n, set_language
 console = Console()
 
 
-class PaperRobotCLI:
-    """Paper Robot 交互式命令行界面"""
+class PaperSeekCLI:
+    """PaperSeek 交互式命令行界面"""
     
     def __init__(self):
         """初始化 CLI"""
@@ -155,7 +155,7 @@ class PaperRobotCLI:
         options = [
             ("1", self.i18n.get("menu_search"), "search"),
             ("2", self.i18n.get("menu_config"), "config"),
-            ("3", self.i18n.get("menu_history"), "history"),
+            ("3", "⭐ 查看收藏夹", "history"),
             ("4", self.i18n.get("menu_test"), "test"),
             ("5", self.i18n.get("menu_exit"), "exit")
         ]
@@ -220,7 +220,7 @@ class PaperRobotCLI:
         """配置机器人名称"""
         console.print(f"\n[bold bright_cyan]{self.i18n.get('config_robot_title')}[/bold bright_cyan]\n")
         
-        current_name = self.config.get("robot_name", "Paper Robot")
+        current_name = self.config.get("robot_name", "PaperSeek")
         console.print(f"{self.i18n.get('config_robot_current')}: [yellow]{current_name}[/yellow]")
         
         new_name = Prompt.ask(self.i18n.get("config_robot_new"), default=current_name)
@@ -293,26 +293,56 @@ class PaperRobotCLI:
         # Whether to generate AI summary
         generate_summary = Confirm.ask(self.i18n.get("search_generate_summary"), default=True)
         
-        # Initialize crawler
-        self.crawler = ArxivCrawler(max_results=max_results)
+        # 数据源选择
+        console.print(f"\n[bold cyan]📚 选择数据源:[/bold cyan]\n")
+      
+        source_options = [
+            ("1", "ArXiv (开放预印本 - 物理/数学/CS等)", ["arxiv"]),
+            ("2", "Semantic Scholar (AI学术搜索 - CS/神经科学)", ["semantic"]),
+            ("3", "全部搜索 (同时搜索多个源)", ["arxiv", "semantic"])
+        ]
         
-        # Search papers with progress
+        from rich.table import Table
+        source_table = Table(show_header=False, box=box.ROUNDED, border_style="cyan")
+        source_table.add_column("", style="bright_cyan bold", width=8)
+        source_table.add_column("", style="bright_green")
+        
+        for num, desc, _ in source_options:
+            source_table.add_row(num, desc)
+        
+        console.print(source_table)
+        
+        source_choice = Prompt.ask(
+            "\n[yellow]请选择[/yellow]",
+            choices=["1", "2", "3"],
+            default="1"
+        )
+        
+        selected_sources = None
+        for num, desc, sources in source_options:
+            if num == source_choice:
+                selected_sources = sources
+                break
+        
+        # 使用新的 SourceManager 进行搜索
         console.print()
-        with Progress(
-            SpinnerColumn(),
-            TextColumn("[progress.description]{task.description}"),
-            BarColumn(),
-            TaskProgressColumn(),
-        ) as progress:
-            task = progress.add_task(f"[cyan]{self.i18n.get('searching')}", total=100)
-            
-            papers = self.crawler.search_papers(
-                keywords=keywords,
-                start_date=start_date if start_date else None,
-                end_date=end_date if end_date else None
-            )
-            
-            progress.update(task, completed=100)
+        from ..sources import SourceManager
+       
+        source_manager = SourceManager()
+        
+        # 搜索进度简化，因为搜索很快
+        console.print(f"[cyan]🔍 正在搜索...[/cyan]")
+        
+        papers = source_manager.search(
+            keywords=keywords,
+            source_names=selected_sources,
+            max_results=max_results,
+            start_date=start_date if start_date else None,
+            end_date=end_date if end_date else None
+        )
+        
+        # 转换为 dict 格式（保持向后兼容）
+        papers = [p.to_dict() for p in papers]
         
         if not papers:
             console.print(f"[yellow]{self.i18n.get('search_no_results')}[/yellow]")
@@ -343,10 +373,127 @@ class PaperRobotCLI:
                     total=len(papers)
                 )
                 
+                # 定义进度回调函数
+                def update_progress(current):
+                    progress.update(task, completed=current)
+                
                 papers = self.llm_client.batch_summarize(
                     papers,
-                    language=self.config.get("language", "zh")
+                    language=self.config.get("language", "zh"),
+                    progress_callback=update_progress
                 )
+        
+        # PDF 下载功能
+        download_pdf = Confirm.ask(
+            f"\n[cyan]📥 {self.i18n.get('download_pdf', '是否下载论文 PDF?')}[/cyan]",
+            default=False
+        )
+        
+        if download_pdf:
+            from ..pdf_downloader import PDFDownloader
+            
+            pdf_downloader = PDFDownloader(
+                output_dir=str(self.config.get_output_dir() / "pdfs")
+            )
+            
+            console.print()
+            with Progress(
+                SpinnerColumn(),
+                TextColumn("[progress.description]{task.description}"),
+                BarColumn(),
+                TaskProgressColumn(),
+            ) as progress:
+                task = progress.add_task(
+                    f"[cyan]📥 正在下载 PDF...[/cyan]",
+                    total=len(papers)
+                )
+                
+                # 定义下载进度回调
+                def update_download_progress(current):
+                    progress.update(task, completed=current)
+                
+                # 批量下载
+                download_stats = pdf_downloader.batch_download(
+                    papers,
+                    progress_callback=update_download_progress
+                )
+            
+            # 显示下载报告
+            pdf_downloader.print_download_report(download_stats)
+        
+        # 标签生成功能（新增）
+        if generate_summary:  # 如果生成了摘要，询问是否生成标签
+            generate_tags = Confirm.ask(
+                f"\n[cyan]🏷️  是否为论文生成AI标签?[/cyan]",
+                default=True
+            )
+            
+            if generate_tags:
+                console.print()
+                with Progress(
+                    SpinnerColumn(),
+                    TextColumn("[progress.description]{task.description}"),
+                    BarColumn(),
+                    TaskProgressColumn(),
+                ) as progress:
+                    task = progress.add_task(
+                        f"[cyan]🏷️  正在生成标签...[/cyan]",
+                        total=len(papers)
+                    )
+                    
+                    def update_tag_progress(current):
+                        progress.update(task, completed=current)
+                    
+                    papers = self.llm_client.batch_generate_tags(
+                        papers,
+                        max_tags=5,
+                        progress_callback=update_tag_progress
+                    )
+        
+        # 引用格式导出（新增）
+        export_citations = Confirm.ask(
+            f"\n[cyan]📝 是否导出引用格式?[/cyan]",
+            default=False
+        )
+        
+        if export_citations:
+            from ..export.citation import CitationExporter
+            
+            output_dir = str(self.config.get_output_dir() / "citations")
+            saved_files = CitationExporter.export_all_formats(papers, output_dir)
+            
+            console.print(f"\n[green]✓ 引用格式已导出:[/green]")
+            for f in saved_files:
+                console.print(f"  [cyan]{f}[/cyan]")
+        
+        # 添加到收藏夹（新增）
+        add_to_favorites = Confirm.ask(
+            f"\n[cyan]⭐ 是否添加到收藏夹?[/cyan]",
+            default=False
+        )
+        
+        if add_to_favorites:
+            import os
+            from ..favorites import FavoriteManager
+            
+            fav_manager = FavoriteManager(str(self.config.get_output_dir()))
+            added_count = 0
+            
+            for paper in papers:
+                # 如果下载了PDF，添加路径信息
+                if download_pdf and 'source_id' in paper:
+                    pdf_filename = pdf_downloader.sanitize_filename(
+                        paper.get('title', ''),
+                        paper.get('source_id', '')
+                    )
+                    pdf_path = pdf_downloader.output_dir + "/" + pdf_filename
+                    if os.path.exists(pdf_path):
+                        paper['pdf_path'] = pdf_path
+                
+                if fav_manager.add_favorite(paper):
+                    added_count += 1
+            
+            console.print(f"\n[green]✓ 已添加 {added_count} 篇论文到收藏夹[/green]")
         
         # Save results
         self.storage = PaperStorage(output_dir=str(self.config.get_output_dir()))
@@ -387,24 +534,13 @@ class PaperRobotCLI:
             console.print()
     
     def show_history(self):
-        """显示已保存的论文文件"""
-        console.print(f"\n[bold bright_cyan]{self.i18n.get('history_title')}[/bold bright_cyan]\n")
+        """显示收藏夹"""
+        console.print(f"\n[bold bright_cyan]⭐ 收藏夹[/bold bright_cyan]\n")
         
-        self.storage = PaperStorage(output_dir=str(self.config.get_output_dir()))
-        files = self.storage.list_saved_files()
+        from ..favorites import FavoriteManager
         
-        if not files:
-            console.print(f"[yellow]{self.i18n.get('history_no_files')}[/yellow]")
-            return
-        
-        table = Table(show_header=True, box=box.ROUNDED, border_style="bright_cyan")
-        table.add_column(self.i18n.get("history_column_num"), style="bright_cyan", width=8)
-        table.add_column(self.i18n.get("history_column_file"), style="bright_green")
-        
-        for i, filename in enumerate(files, 1):
-            table.add_row(str(i), filename)
-        
-        console.print(table)
+        fav_manager = FavoriteManager(str(self.config.get_output_dir()))
+        fav_manager.display_favorites()
     
     def test_api(self):
         """测试 API 连接"""
@@ -466,7 +602,7 @@ class PaperRobotCLI:
 
 def main():
     """CLI 入口函数"""
-    cli = PaperRobotCLI()
+    cli = PaperSeekCLI()
     cli.run()
 
 

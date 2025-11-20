@@ -15,7 +15,7 @@ class Config:
     """配置管理类"""
     
     DEFAULT_CONFIG = {
-        "robot_name": "Paper Robot",
+        "robot_name": "PaperSeek",
         "api_key": "",
         "base_url": "https://api.openai.com/v1",
         "model": "gpt-4o-mini",
