@@ -67,7 +67,7 @@ jobs:
           git config --local user.name "Paper Robot"
           
           DATE=$(date +'%Y-%m-%d')
-          git add papers/
+          git add -f papers/  # Force add despite .gitignore
           
           if git diff --staged --quiet; then
             echo "No new papers found"
