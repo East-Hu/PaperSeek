@@ -1,0 +1,100 @@
+[
+  {
+    "source": "arxiv",
+    "title": "Systematically Deconstructing APVD Steganography and its Payload with a Unified Deep Learning Paradigm",
+    "authors": [
+      "Kabbo Jit Deb",
+      "Md. Azizul Hakim",
+      "Md Shamse Tabrej"
+    ],
+    "summary": "In the era of digital communication, steganography allows covert embedding of data within media files. Adaptive Pixel Value Differencing (APVD) is a steganographic method valued for its high embedding capacity and invisibility, posing challenges for traditional steganalysis. This paper proposes a deep learning-based approach for detecting APVD steganography and performing reverse steganalysis, which reconstructs the hidden payload. We present a Convolutional Neural Network (CNN) with an attention mechanism and two output heads for simultaneous stego detection and payload recovery. Trained and validated on 10,000 images from the BOSSbase and UCID datasets, our model achieves a detection accuracy of 96.2 percent. It also reconstructs embedded payloads with up to 93.6 percent recovery at lower embedding densities. Results indicate a strong inverse relationship between payload size and recovery accuracy. This study reveals a vulnerability in adaptive steganography and provides a tool for digital forensic analysis, while encouraging reassessment of data security in the age of AI-driven techniques.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16604v1",
+    "arxiv_id": "2511.16604v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CR"
+    ],
+    "primary_category": "cs.CR"
+  },
+  {
+    "source": "arxiv",
+    "title": "The Shawshank Redemption of Embodied AI: Understanding and Benchmarking Indirect Environmental Jailbreaks",
+    "authors": [
+      "Chunyang Li",
+      "Zifeng Kang",
+      "Junwei Zhang",
+      "Zhuo Ma",
+      "Anda Cheng",
+      "Xinghua Li",
+      "Jianfeng Ma"
+    ],
+    "summary": "The adoption of Vision-Language Models (VLMs) in embodied AI agents, while being effective, brings safety concerns such as jailbreaking. Prior work have explored the possibility of directly jailbreaking the embodied agents through elaborated multi-modal prompts. However, no prior work has studied or even reported indirect jailbreaks in embodied AI, where a black-box attacker induces a jailbreak without issuing direct prompts to the embodied agent. In this paper, we propose, for the first time, indirect environmental jailbreak (IEJ), a novel attack to jailbreak embodied AI via indirect prompt injected into the environment, such as malicious instructions written on a wall. Our key insight is that embodied AI does not ''think twice'' about the instructions provided by the environment -- a blind trust that attackers can exploit to jailbreak the embodied agent. We further design and implement open-source prototypes of two fully-automated frameworks: SHAWSHANK, the first automatic attack generation framework for the proposed attack IEJ; and SHAWSHANK-FORGE, the first automatic benchmark generation framework for IEJ. Then, using SHAWSHANK-FORGE, we automatically construct SHAWSHANK-BENCH, the first benchmark for indirectly jailbreaking embodied agents. Together, our two frameworks and one benchmark answer the questions of what content can be used for malicious IEJ instructions, where they should be placed, and how IEJ can be systematically evaluated. Evaluation results show that SHAWSHANK outperforms eleven existing methods across 3,957 task-scene combinations and compromises all six tested VLMs. Furthermore, current defenses only partially mitigate our attack, and we have responsibly disclosed our findings to all affected VLM vendors.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16347v1",
+    "arxiv_id": "2511.16347v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CR",
+      "cs.CY",
+      "cs.RO"
+    ],
+    "primary_category": "cs.CR"
+  },
+  {
+    "source": "arxiv",
+    "title": "Optimizing Predictive Maintenance: Enhanced AI and Backend Integration",
+    "authors": [
+      "Michael Stern",
+      "Michelle Hallmann",
+      "Francesco Vona",
+      "Ute Franke",
+      "Thomas Ostertag",
+      "Benjamin Schlueter",
+      "Jan-Niklas Voigt-Antons"
+    ],
+    "summary": "Rail transportation success depends on efficient maintenance to avoid delays and malfunctions, particularly in rural areas with limited resources. We propose a cost-effective wireless monitoring system that integrates sensors and machine learning to address these challenges. We developed a secure data management system, equipping train cars and rail sections with sensors to collect structural and environmental data. This data supports Predictive Maintenance by identifying potential issues before they lead to failures. Implementing this system requires a robust backend infrastructure for secure data transfer, storage, and analysis. Designed collaboratively with stakeholders, including the railroad company and project partners, our system is tailored to meet specific requirements while ensuring data integrity and security. This article discusses the reasoning behind our design choices, including the selection of sensors, data handling protocols, and Machine Learning models. We propose a system architecture for implementing the solution, covering aspects such as network topology and data processing workflows. Our approach aims to enhance the reliability and efficiency of rail transportation through advanced technological integration.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16239v1",
+    "arxiv_id": "2511.16239v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.HC"
+    ],
+    "primary_category": "cs.HC"
+  },
+  {
+    "source": "arxiv",
+    "title": "Q-MLLM: Vector Quantization for Robust Multimodal Large Language Model Security",
+    "authors": [
+      "Wei Zhao",
+      "Zhe Li",
+      "Yige Li",
+      "Jun Sun"
+    ],
+    "summary": "Multimodal Large Language Models (MLLMs) have demonstrated impressive capabilities in cross-modal understanding, but remain vulnerable to adversarial attacks through visual inputs despite robust textual safety mechanisms. These vulnerabilities arise from two core weaknesses: the continuous nature of visual representations, which allows for gradient-based attacks, and the inadequate transfer of text-based safety mechanisms to visual content. We introduce Q-MLLM, a novel architecture that integrates two-level vector quantization to create a discrete bottleneck against adversarial attacks while preserving multimodal reasoning capabilities. By discretizing visual representations at both pixel-patch and semantic levels, Q-MLLM blocks attack pathways and bridges the cross-modal safety alignment gap. Our two-stage training methodology ensures robust learning while maintaining model utility. Experiments demonstrate that Q-MLLM achieves significantly better defense success rate against both jailbreak attacks and toxic image attacks than existing approaches. Notably, Q-MLLM achieves perfect defense success rate (100\\%) against jailbreak attacks except in one arguable case, while maintaining competitive performance on multiple utility benchmarks with minimal inference overhead. This work establishes vector quantization as an effective defense mechanism for secure multimodal AI systems without requiring expensive safety-specific fine-tuning or detection overhead. Code is available at https://github.com/Amadeuszhao/QMLLM.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16229v1",
+    "arxiv_id": "2511.16229v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CR",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CR"
+  },
+  {
+    "source": "arxiv",
+    "title": "Hiding in the AI Traffic: Abusing MCP for LLM-Powered Agentic Red Teaming",
+    "authors": [
+      "Strahinja Janjusevic",
+      "Anna Baron Garcia",
+      "Sohrob Kazerounian"
+    ],
+    "summary": "Generative AI is reshaping offensive cybersecurity by enabling autonomous red team agents that can plan, execute, and adapt during penetration tests. However, existing approaches face trade-offs between generality and specialization, and practical deployments reveal challenges such as hallucinations, context limitations, and ethical concerns. In this work, we introduce a novel command & control (C2) architecture leveraging the Model Context Protocol (MCP) to coordinate distributed, adaptive reconnaissance agents covertly across networks. Notably, we find that our architecture not only improves goal-directed behavior of the system as whole, but also eliminates key host and network artifacts that can be used to detect and prevent command & control behavior altogether. We begin with a comprehensive review of state-of-the-art generative red teaming methods, from fine-tuned specialist models to modular or agentic frameworks, analyzing their automation capabilities against task-specific accuracy. We then detail how our MCP-based C2 can overcome current limitations by enabling asynchronous, parallel operations and real-time intelligence sharing without periodic beaconing. We furthermore explore advanced adversarial capabilities of this architecture, its detection-evasion techniques, and address dual-use ethical implications, proposing defensive measures and controlled evaluation in lab settings. Experimental comparisons with traditional C2 show drastic reductions in manual effort and detection footprint. We conclude with future directions for integrating autonomous exploitation, defensive LLM agents, predictive evasive maneuvers, and multi-agent swarms. The proposed MCP-enabled C2 framework demonstrates a significant step toward realistic, AI-driven red team operations that can simulate advanced persistent threats while informing the development of next-generation defensive systems.",
+    "pdf_url": "https://arxiv.org/pdf/2511.15998v1",
+    "arxiv_id": "2511.15998v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CR",
+      "cs.AI"
+    ],
+    "primary_category": "cs.CR"
+  }
+]
