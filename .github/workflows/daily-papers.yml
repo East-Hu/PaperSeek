@@ -54,14 +54,12 @@ jobs:
           EOF
       
       - name: Search papers
+        env:
+          KEYWORDS: ${{ github.event.inputs.keywords || 'AI Security' }}
+          MAX_RESULTS: ${{ github.event.inputs.max_results || '20' }}
         run: |
-          KEYWORDS="${{ github.event.inputs.keywords || 'AI Security' }}"
-          MAX_RESULTS="${{ github.event.inputs.max_results || '20' }}"
-          
-          # Use python -m instead of entry point to ensure it works
-          python -m paper_to_action.cli.interface search "$KEYWORDS" \
-            --max-results "$MAX_RESULTS" \
-            --format both
+          # Use non-interactive script for GitHub Actions
+          python scripts/github_search.py "$KEYWORDS" "$MAX_RESULTS"
       
       - name: Commit and push results
         run: |
