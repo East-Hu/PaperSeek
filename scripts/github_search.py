@@ -15,6 +15,7 @@ from paper_to_action.crawler import ArxivCrawler
 from paper_to_action.llm_client import LLMClient
 from paper_to_action.storage import PaperStorage
 from paper_to_action.config import Config
+from paper_to_action.pdf_downloader import PDFDownloader
 from rich.console import Console
 
 console = Console()
@@ -73,29 +74,37 @@ def main():
         else:
             console.print("[yellow]ℹ️  AI summary disabled by user[/yellow]")
         
-        # Add tags if enabled
+        # Generate tags if enabled
         if enable_tagging:
-            console.print("[cyan]🏷️  Auto-tagging papers...[/cyan]")
-            for paper in papers:
-                # Auto-generate tags from categories and keywords
-                tags = []
-                if 'categories' in paper and paper['categories']:
-                    tags.extend(paper['categories'][:3])  # Top 3 categories
-                if 'primary_category' in paper:
-                    tags.append(paper['primary_category'])
-                # Add keyword as tag
-                tags.append(keywords.split()[0] if ' ' in keywords else keywords)
-                paper['tags'] = list(set(tags))  # Remove duplicates
-                console.print(f"[green]✓ Tagged: {paper['title'][:40]}... with {len(paper['tags'])} tags[/green]")
+            api_key = config.get('api_key')
+            if api_key and enable_ai_summary and 'llm_client' in locals():
+                # Use LLM to generate tags
+                console.print("[cyan]🏷️  Generating tags with LLM...[/cyan]")
+                llm_client.batch_generate_tags(papers, max_tags=5)
+            else:
+                # Fallback: use categories as tags
+                console.print("[cyan]🏷️  Using categories as tags...[/cyan]")
+                for paper in papers:
+                    tags = []
+                    if 'categories' in paper and paper['categories']:
+                        tags.extend(paper['categories'][:3])
+                    if 'primary_category' in paper and paper['primary_category'] not in tags:
+                        tags.append(paper['primary_category'])
+                    paper['tags'] = tags
+                    console.print(f"[green]✓ Tagged: {paper['title'][:40]}... with {len(tags)} tags[/green]")
         else:
             console.print("[yellow]ℹ️  Auto-tagging disabled by user[/yellow]")
         
-        # Download PDFs if enabled (placeholder for future implementation)
+        # Download PDFs if enabled
         if download_pdf:
-            console.print("[yellow]ℹ️  PDF download feature coming soon...[/yellow]")
-            # TODO: Implement PDF download functionality
-            # for paper in papers:
-            #     download_paper_pdf(paper['pdf_url'], output_dir)
+            console.print("[cyan]📄 Downloading PDFs...[/cyan]")
+            output_dir = config.get('output_dir', 'papers')
+            pdf_dir = f"{output_dir}/pdfs"
+            downloader = PDFDownloader(output_dir=pdf_dir)
+            stats = downloader.batch_download(papers)
+            downloader.print_download_report(stats)
+        else:
+            console.print("[yellow]ℹ️  PDF download disabled by user[/yellow]")
         
         # Save papers
         output_dir = config.get('output_dir', 'papers')
