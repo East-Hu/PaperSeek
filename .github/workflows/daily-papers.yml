@@ -15,6 +15,21 @@ on:
         description: '最大结果数'
         required: false
         default: '20'
+      enable_ai_summary:
+        description: '生成AI摘要'
+        required: false
+        type: boolean
+        default: true
+      enable_tagging:
+        description: '自动添加标签'
+        required: false
+        type: boolean
+        default: true
+      download_pdf:
+        description: '下载PDF文件'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   fetch-papers:
@@ -59,9 +74,12 @@ jobs:
         env:
           KEYWORDS: ${{ github.event.inputs.keywords || 'AI Security' }}
           MAX_RESULTS: ${{ github.event.inputs.max_results || '20' }}
+          ENABLE_AI_SUMMARY: ${{ github.event.inputs.enable_ai_summary || 'true' }}
+          ENABLE_TAGGING: ${{ github.event.inputs.enable_tagging || 'true' }}
+          DOWNLOAD_PDF: ${{ github.event.inputs.download_pdf || 'false' }}
         run: |
           # Use non-interactive script for GitHub Actions
-          python scripts/github_search.py "$KEYWORDS" "$MAX_RESULTS"
+          python scripts/github_search.py "$KEYWORDS" "$MAX_RESULTS" "$ENABLE_AI_SUMMARY" "$ENABLE_TAGGING" "$DOWNLOAD_PDF"
       
       - name: Commit and push results
         run: |
