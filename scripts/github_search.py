@@ -49,41 +49,41 @@ def main():
         
         console.print(f"[green]✓ Found {len(papers)} papers[/green]")
         
+        # Initialize LLM client if API key available and either summary or tagging enabled
+        llm_client = None
+        api_key = config.get('api_key')
+        if api_key and (enable_ai_summary or enable_tagging):
+            console.print("[cyan]🔑 API key found, initializing LLM client...[/cyan]")
+            llm_client = LLMClient(
+                api_key=api_key,
+                base_url=config.get('base_url', 'https://api.openai.com/v1'),
+                model=config.get('model', 'gpt-4o-mini')
+            )
+        elif not api_key:
+            console.print("[yellow]⚠️  No API key found in config[/yellow]")
+        
         # Generate AI summaries if enabled
         if enable_ai_summary:
-            api_key = config.get('api_key')
-            if api_key:
+            if llm_client:
                 console.print("[cyan]🤖 Generating summaries with LLM...[/cyan]")
-                llm_client = LLMClient(
-                    api_key=api_key,
-                    base_url=config.get('base_url', 'https://api.openai.com/v1'),
-                    model=config.get('model', 'gpt-4o-mini')
-                )
-                
-                # Add summaries to papers
-                for paper in papers:
-                    try:
-                        summary = llm_client.summarize_paper(paper)
-                        paper['ai_summary'] = summary
-                        console.print(f"[green]✓ Summarized: {paper['title'][:50]}...[/green]")
-                    except Exception as e:
-                        console.print(f"[yellow]⚠️  Failed to summarize: {e}[/yellow]")
-                        paper['ai_summary'] = None
+                # Use batch_summarize for better performance
+                papers = llm_client.batch_summarize(papers, language='zh', delay=0.5)
+                console.print(f"[green]✓ All {len(papers)} summaries generated[/green]")
             else:
-                console.print("[yellow]⚠️  No API key found, skipping LLM summaries[/yellow]")
+                console.print("[yellow]⚠️  Cannot generate summaries: No API key configured[/yellow]")
         else:
             console.print("[yellow]ℹ️  AI summary disabled by user[/yellow]")
         
         # Generate tags if enabled
         if enable_tagging:
-            api_key = config.get('api_key')
-            if api_key and enable_ai_summary and 'llm_client' in locals():
+            if llm_client:
                 # Use LLM to generate tags
                 console.print("[cyan]🏷️  Generating tags with LLM...[/cyan]")
-                llm_client.batch_generate_tags(papers, max_tags=5)
+                papers = llm_client.batch_generate_tags(papers, max_tags=5)
+                console.print(f"[green]✓ All tags generated[/green]")
             else:
                 # Fallback: use categories as tags
-                console.print("[cyan]🏷️  Using categories as tags...[/cyan]")
+                console.print("[cyan]🏷️  Using categories as tags (LLM not available)...[/cyan]")
                 for paper in papers:
                     tags = []
                     if 'categories' in paper and paper['categories']:
