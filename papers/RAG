@@ -1,0 +1,122 @@
+[
+  {
+    "source": "arxiv",
+    "title": "Comparison of Text-Based and Image-Based Retrieval in Multimodal Retrieval Augmented Generation Large Language Model Systems",
+    "authors": [
+      "Elias Lumer",
+      "Alex Cardenas",
+      "Matt Melich",
+      "Myles Mason",
+      "Sara Dieter",
+      "Vamse Kumar Subbiah",
+      "Pradeep Honaganahalli Basavaraju",
+      "Roberto Hernandez"
+    ],
+    "summary": "Recent advancements in Retrieval-Augmented Generation (RAG) have enabled Large Language Models (LLMs) to access multimodal knowledge bases containing both text and visual information such as charts, diagrams, and tables in financial documents. However, existing multimodal RAG systems rely on LLM-based summarization to convert images into text during preprocessing, storing only text representations in vector databases, which causes loss of contextual information and visual details critical for downstream retrieval and question answering. To address this limitation, we present a comprehensive comparative analysis of two retrieval approaches for multimodal RAG systems, including text-based chunk retrieval (where images are summarized into text before embedding) and direct multimodal embedding retrieval (where images are stored natively in the vector space). We evaluate all three approaches across 6 LLM models and a two multi-modal embedding models on a newly created financial earnings call benchmark comprising 40 question-answer pairs, each paired with 2 documents (1 image and 1 text chunk). Experimental results demonstrate that direct multimodal embedding retrieval significantly outperforms LLM-summary-based approaches, achieving absolute improvements of 13% in mean average precision (mAP@5) and 11% in normalized discounted cumulative gain. These gains correspond to relative improvements of 32% in mAP@5 and 20% in nDCG@5, providing stronger evidence of their practical impact. We additionally find that direct multimodal retrieval produces more accurate and factually consistent answers as measured by LLM-as-a-judge pairwise comparisons. We demonstrate that LLM summarization introduces information loss during preprocessing, whereas direct multimodal embeddings preserve visual context for retrieval and inference.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16654v1",
+    "arxiv_id": "2511.16654v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CL"
+    ],
+    "primary_category": "cs.CL",
+    "tags": [
+      "cs.CL"
+    ]
+  },
+  {
+    "source": "arxiv",
+    "title": "SurvAgent: Hierarchical CoT-Enhanced Case Banking and Dichotomy-Based Multi-Agent System for Multimodal Survival Prediction",
+    "authors": [
+      "Guolin Huang",
+      "Wenting Chen",
+      "Jiaqi Yang",
+      "Xinheng Lyu",
+      "Xiaoling Luo",
+      "Sen Yang",
+      "Xiaohan Xing",
+      "Linlin Shen"
+    ],
+    "summary": "Survival analysis is critical for cancer prognosis and treatment planning, yet existing methods lack the transparency essential for clinical adoption. While recent pathology agents have demonstrated explainability in diagnostic tasks, they face three limitations for survival prediction: inability to integrate multimodal data, ineffective region-of-interest exploration, and failure to leverage experiential learning from historical cases. We introduce SurvAgent, the first hierarchical chain-of-thought (CoT)-enhanced multi-agent system for multimodal survival prediction. SurvAgent consists of two stages: (1) WSI-Gene CoT-Enhanced Case Bank Construction employs hierarchical analysis through Low-Magnification Screening, Cross-Modal Similarity-Aware Patch Mining, and Confidence-Aware Patch Mining for pathology images, while Gene-Stratified analysis processes six functional gene categories. Both generate structured reports with CoT reasoning, storing complete analytical processes for experiential learning. (2) Dichotomy-Based Multi-Expert Agent Inference retrieves similar cases via RAG and integrates multimodal reports with expert predictions through progressive interval refinement. Extensive experiments on five TCGA cohorts demonstrate SurvAgent's superority over conventional methods, proprietary MLLMs, and medical agents, establishing a new paradigm for explainable AI-driven survival prediction in precision oncology.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16635v1",
+    "arxiv_id": "2511.16635v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.CV",
+      "cs.CL"
+    ],
+    "primary_category": "cs.CV",
+    "tags": [
+      "cs.CV",
+      "cs.CL"
+    ]
+  },
+  {
+    "source": "arxiv",
+    "title": "CorrectHDL: Agentic HDL Design with LLMs Leveraging High-Level Synthesis as Reference",
+    "authors": [
+      "Kangwei Xu",
+      "Grace Li Zhang",
+      "Ulf Schlichtmann",
+      "Bing Li"
+    ],
+    "summary": "Large Language Models (LLMs) have demonstrated remarkable potential in hardware front-end design using hardware description languages (HDLs). However, their inherent tendency toward hallucination often introduces functional errors into the generated HDL designs. To address this issue, we propose the framework CorrectHDL that leverages high-level synthesis (HLS) results as functional references to correct potential errors in LLM-generated HDL designs.The input to the proposed framework is a C/C++ program that specifies the target circuit's functionality. The program is provided to an LLM to directly generate an HDL design, whose syntax errors are repaired using a Retrieval-Augmented Generation (RAG) mechanism. The functional correctness of the LLM-generated circuit is iteratively improved by comparing its simulated behavior with an HLS reference design produced by conventional HLS tools, which ensures the functional correctness of the result but can lead to suboptimal area and power efficiency. Experimental results demonstrate that circuits generated by the proposed framework achieve significantly better area and power efficiency than conventional HLS designs and approach the quality of human-engineered circuits. Meanwhile, the correctness of the resulting HDL implementation is maintained, highlighting the effectiveness and potential of agentic HDL design leveraging the generative capabilities of LLMs and the rigor of traditional correctness-driven IC design flows.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16395v1",
+    "arxiv_id": "2511.16395v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.AI",
+      "cs.PL",
+      "cs.SE",
+      "eess.SY"
+    ],
+    "primary_category": "cs.AI",
+    "tags": [
+      "cs.AI",
+      "cs.PL",
+      "cs.SE"
+    ]
+  },
+  {
+    "source": "arxiv",
+    "title": "ARK: Answer-Centric Retriever Tuning via KG-augmented Curriculum Learning",
+    "authors": [
+      "Jiawei Zhou",
+      "Hang Ding",
+      "Haiyun Jiang"
+    ],
+    "summary": "Retrieval-Augmented Generation (RAG) has emerged as a powerful framework for knowledge-intensive tasks, yet its effectiveness in long-context scenarios is often bottlenecked by the retriever's inability to distinguish sparse yet crucial evidence. Standard retrievers, optimized for query-document similarity, frequently fail to align with the downstream goal of generating a precise answer. To bridge this gap, we propose a novel fine-tuning framework that optimizes the retriever for Answer Alignment. Specifically, we first identify high-quality positive chunks by evaluating their sufficiency to generate the correct answer. We then employ a curriculum-based contrastive learning scheme to fine-tune the retriever. This curriculum leverages LLM-constructed Knowledge Graphs (KGs) to generate augmented queries, which in turn mine progressively challenging hard negatives. This process trains the retriever to distinguish the answer-sufficient positive chunks from these nuanced distractors, enhancing its generalization. Extensive experiments on 10 datasets from the Ultradomain and LongBench benchmarks demonstrate that our fine-tuned retriever achieves state-of-the-art performance, improving 14.5% over the base model without substantial architectural modifications and maintaining strong efficiency for long-context RAG. Our work presents a robust and effective methodology for building truly answer-centric retrievers.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16326v1",
+    "arxiv_id": "2511.16326v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.IR"
+    ],
+    "primary_category": "cs.IR",
+    "tags": [
+      "cs.IR"
+    ]
+  },
+  {
+    "source": "arxiv",
+    "title": "MuISQA: Multi-Intent Retrieval-Augmented Generation for Scientific Question Answering",
+    "authors": [
+      "Zhiyuan Li",
+      "Haisheng Yu",
+      "Guangchuan Guo",
+      "Nan Zhou",
+      "Jiajun Zhang"
+    ],
+    "summary": "Complex scientific questions often entail multiple intents, such as identifying gene mutations and linking them to related diseases. These tasks require evidence from diverse sources and multi-hop reasoning, while conventional retrieval-augmented generation (RAG) systems are usually single-intent oriented, leading to incomplete evidence coverage. To assess this limitation, we introduce the Multi-Intent Scientific Question Answering (MuISQA) benchmark, which is designed to evaluate RAG systems on heterogeneous evidence coverage across sub-questions. In addition, we propose an intent-aware retrieval framework that leverages large language models (LLMs) to hypothesize potential answers, decompose them into intent-specific queries, and retrieve supporting passages for each underlying intent. The retrieved fragments are then aggregated and re-ranked via Reciprocal Rank Fusion (RRF) to balance coverage across diverse intents while reducing redundancy. Experiments on both MuISQA benchmark and other general RAG datasets demonstrate that our method consistently outperforms conventional approaches, particularly in retrieval accuracy and evidence coverage.",
+    "pdf_url": "https://arxiv.org/pdf/2511.16283v1",
+    "arxiv_id": "2511.16283v1",
+    "published": "2025-11-20",
+    "categories": [
+      "cs.AI"
+    ],
+    "primary_category": "cs.AI",
+    "tags": [
+      "cs.AI"
+    ]
+  }
+]
